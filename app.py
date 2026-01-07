@@ -1,52 +1,28 @@
 from flask import Flask, render_template, request
-import re
 
 app = Flask(__name__)
-
-# Banned / risky patterns (REAL LOGIC, NOT AI)
-BANNED_KEYWORDS = [
-    "login", "verify", "update", "secure", "account",
-    "bank", "paypal", "free", "win", "reward"
-]
-
-SHORTENERS = [
-    "bit.ly", "tinyurl", "t.co", "goo.gl", "ow.ly"
-]
-
 
 def analyze_url(url):
     score = 0
     reasons = []
 
-    # Rule 1: IP address in URL
-    if re.search(r"https?://\d+\.\d+\.\d+\.\d+", url):
+    if "http://" in url:
+        score += 1
+        reasons.append("Uses HTTP instead of HTTPS")
+
+    if "login" in url.lower() or "verify" in url.lower():
         score += 2
-        reasons.append("URL contains IP address")
+        reasons.append("Suspicious keyword found")
 
-    # Rule 2: URL shortener
-    for s in SHORTENERS:
-        if s in url.lower():
-            score += 2
-            reasons.append("URL uses shortener service")
-            break
-
-    # Rule 3: Suspicious keywords
-    for word in BANNED_KEYWORDS:
-        if word in url.lower():
-            score += 1
-            reasons.append(f"Suspicious keyword found: {word}")
-
-    # Rule 4: Too many dots
     if url.count(".") > 4:
         score += 1
-        reasons.append("URL contains too many dots")
+        reasons.append("Too many dots in URL")
 
-    # Risk level
-    if score >= 5:
+    if score >= 4:
         risk = "HIGH RISK"
-    elif score >= 3:
+    elif score >= 2:
         risk = "MEDIUM RISK"
-    elif score >= 1:
+    elif score == 1:
         risk = "LOW RISK"
     else:
         risk = "SAFE"
@@ -55,7 +31,7 @@ def analyze_url(url):
 
 
 @app.route("/", methods=["GET", "POST"])
-def index():
+def home():
     result = None
     score = None
     reasons = []
@@ -73,4 +49,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)

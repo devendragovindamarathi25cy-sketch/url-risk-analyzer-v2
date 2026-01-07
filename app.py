@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates")
 
 def analyze_url(url):
     score = 0
     reasons = []
 
-    if "http://" in url:
+    if url.startswith("http://"):
         score += 1
         reasons.append("Uses HTTP instead of HTTPS")
 
@@ -37,16 +37,14 @@ def home():
     reasons = []
 
     if request.method == "POST":
-        url = request.form.get("url")
+        url = request.form["url"]
         result, score, reasons = analyze_url(url)
 
-    return render_template(
-        "index.html",
-        result=result,
-        score=score,
-        reasons=reasons
-    )
+    return render_template("index.html",
+                           result=result,
+                           score=score,
+                           reasons=reasons)
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run()

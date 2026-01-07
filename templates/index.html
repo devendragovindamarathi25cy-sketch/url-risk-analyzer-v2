@@ -3,68 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>URL Risk Analyzer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            padding: 20px;
-        }
-        .box {
-            max-width: 500px;
-            background: white;
-            padding: 20px;
-            margin: auto;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-        }
-        button {
-            margin-top: 10px;
-            padding: 10px;
-            width: 100%;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        .result {
-            margin-top: 15px;
-            padding: 10px;
-            background: #eef;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-<div class="box">
-    <h2>URL Risk Analyzer</h2>
+<h2>URL Risk Analyzer</h2>
 
-    <form method="POST">
-        <input type="text" name="url" placeholder="Enter URL" required>
-        <button type="submit">Analyze</button>
-    </form>
+<form method="POST">
+    <input type="text" name="url" placeholder="Enter URL" required>
+    <button type="submit">Analyze</button>
+</form>
 
-    {% if result %}
-    <div class="result">
-        <p><b>Risk Level:</b> {{ result }}</p>
-        <p><b>Score:</b> {{ score }}</p>
+{% if result %}
+    <h3>Risk Level: {{ result }}</h3>
+    <p>Score: {{ score }}</p>
 
-        {% if reasons %}
+    {% if reasons %}
         <ul>
             {% for r in reasons %}
-            <li>{{ r }}</li>
+                <li>{{ r }}</li>
             {% endfor %}
         </ul>
-        {% endif %}
-    </div>
     {% endif %}
-</div>
+{% endif %}
 
 </body>
 </html>

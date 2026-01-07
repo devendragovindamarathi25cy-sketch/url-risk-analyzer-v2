@@ -4,28 +4,103 @@
     <meta charset="UTF-8">
     <title>URL Risk Analyzer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056cc;
+        }
+
+        .result-box {
+            background: #eef0ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .result-box p {
+            margin: 6px 0;
+            font-size: 16px;
+        }
+
+        ul {
+            padding-left: 18px;
+            margin-top: 8px;
+        }
+
+        li {
+            font-size: 14px;
+        }
+    </style>
 </head>
+
 <body>
+    <div class="card">
+        <h2>URL Risk Analyzer</h2>
 
-<h2>URL Risk Analyzer</h2>
+        <form method="POST">
+            <input type="text" name="url" placeholder="Enter URL" required>
+            <button type="submit">Analyze</button>
+        </form>
 
-<form method="POST">
-    <input type="text" name="url" placeholder="Enter URL" required>
-    <button type="submit">Analyze</button>
-</form>
+        {% if result %}
+        <div class="result-box">
+            <p><strong>Risk Level:</strong> {{ result }}</p>
+            <p><strong>Score:</strong> {{ score }}</p>
 
-{% if result %}
-    <h3>Risk Level: {{ result }}</h3>
-    <p>Score: {{ score }}</p>
-
-    {% if reasons %}
-        <ul>
-            {% for r in reasons %}
+            {% if reasons %}
+            <ul>
+                {% for r in reasons %}
                 <li>{{ r }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-{% endif %}
-
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
 </body>
 </html>

@@ -3,27 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title>URL Risk Analyzer</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
         body {
             font-family: Arial, sans-serif;
             background: #f4f6f8;
-            margin: 0;
-            padding: 0;
+            padding: 20px;
         }
-        .container {
+        .box {
             max-width: 500px;
-            margin: 60px auto;
             background: white;
             padding: 20px;
-            border-radius: 6px;
+            margin: auto;
+            border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h2 {
-            text-align: center;
-        }
-        input[type="text"] {
+        input {
             width: 100%;
             padding: 10px;
-            margin-top:
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background: #eef;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>URL Risk Analyzer</h2>
+
+    <form method="POST">
+        <input type="text" name="url" placeholder="Enter URL" required>
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if result %}
+    <div class="result">
+        <p><b>Risk Level:</b> {{ result }}</p>
+        <p><b>Score:</b> {{ score }}</p>
+
+        {% if reasons %}
+        <ul>
+            {% for r in reasons %}
+            <li>{{ r }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
